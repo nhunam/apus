@@ -1,0 +1,51 @@
+server:
+  host: ec2-18-140-53-167.ap-southeast-1.compute.amazonaws.com
+  port: 8081
+
+database:
+  host: localhost
+  port: 5432
+  username: postgres
+  password: 123456
+  dbname: membership_master
+  maxIdleConns: 10
+  maxOpenConns: 1000
+  connMaxLifetime: 1h
+
+redisCache:
+  size: 100000
+  ttl: 1h
+
+redis:
+  host: localhost
+  port: 6379
+  password:
+  database: 0
+  ttls:
+    common: 2h
+
+rabbitmq:
+  host: localhost
+  port: 5672
+  username: admin
+  password: 123456
+  producer:
+    exchange: auth-svc-exc
+
+jwt:
+  realm: apuscorp.com
+  signAlg: HS512
+  secret: Secret@123456
+  expiredTime: 1h
+  refreshExpTime: 24h
+  longRefreshExpTime: 168h
+
+resty:
+  debug: true
+  timeout: 1m
+
+hostUrl:
+  membership: 'http://localhost:8082'
+
+log:
+  level: info

@@ -1,0 +1,102 @@
+basePath: /
+definitions:
+  request.UserLoginDto:
+    properties:
+      email:
+        type: string
+      mobile:
+        type: string
+      password:
+        type: string
+      remember_me:
+        type: boolean
+      username:
+        type: string
+    required:
+    - password
+    type: object
+  response.Response:
+    properties:
+      data:
+        type: object
+      error_code:
+        type: string
+      error_fields:
+        items:
+          $ref: '#/definitions/response.ResponseErrorField'
+        type: array
+      error_msg:
+        type: string
+    type: object
+  response.ResponseErrorField:
+    properties:
+      error_msg:
+        type: string
+      field:
+        type: string
+      tag:
+        type: string
+    type: object
+host: localhost:8081
+info:
+  contact:
+    email: maihai86@gmail.com
+    name: Mai Tien Hai
+  description: This is Auth Service API.
+  title: Auth Service API
+  version: "1.0"
+paths:
+  /api/v1/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: 'Login với username/password, see: github.com/appleboy/gin-jwt/v2,
+        auth_jwt, function LoginHandler'
+      parameters:
+      - description: JSON body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserLoginDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: '{"error_code": "<Mã lỗi>", "error_msg": "<Nội dung lỗi>"}'
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Login với username/password
+      tags:
+      - auth
+  /api/v1/auth/refresh_token:
+    post:
+      consumes:
+      - application/json
+      description: Refresh access token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: '{"error_code": "<Mã lỗi>", "error_msg": "<Nội dung lỗi>"}'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Refresh access token
+      tags:
+      - auth
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
